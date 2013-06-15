@@ -1,0 +1,22 @@
+
+(defproject core-logic-talk "0.1.0-SNAPSHOT"
+  :description "Magic Programming Talk Tool"
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/core.logic "0.8.3"]
+                 [compojure "1.1.5"]
+                 [clojail "1.0.6"]
+                 [ring/ring-devel "1.1.8"]
+                 [ring/ring-jetty-adapter "1.1.8"]
+                 [cljs-ajax "0.1.3"]
+                 [enfocus "1.0.1"]]
+  :plugins [[lein-cljsbuild "0.3.2"]]
+  :cljsbuild {
+    :builds [{:source-paths ["src/cljs"]
+              :compiler {
+                :output-to "resources/public/js/application.js"
+                :optimizations :whitespace
+                :pretty-print true}}]
+  }
+  :source-paths ["src/clojure"]
+  :main core-logic-talk.core)
+
