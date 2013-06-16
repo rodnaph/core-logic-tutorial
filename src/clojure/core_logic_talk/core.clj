@@ -11,6 +11,18 @@
             [compojure.route :as route]
             [compojure.handler :as handler]))
 
+(defn edn [data status]
+  (-> (res/response (pr-str data))
+      (res/status status)
+      (res/content-type "application/edn")))
+
+(defn wrap-exceptions [handler]
+  (fn [req]
+    (try
+      (handler req)
+      (catch Exception e
+        (edn {:message (.getMessage e)} 500)))))
+
 (defn index-page [req]
   (let [title "core.logic tool"]
     (html
@@ -37,8 +49,7 @@
 (defn run-code [{:keys [params]}]
   (let [code (read-string (format "(do %s)" (:code params)))
         result (eval (concat env (vector code)))]
-    (-> (res/response (pr-str result))
-        (res/content-type "application/edn"))))
+    (edn result 200)))
 
 (defroutes all-routes
   (GET "/" [] index-page)
@@ -46,7 +57,7 @@
   (route/resources "/assets"))
 
 (def app (-> #'all-routes
-             (wrap-stacktrace)
+             (wrap-exceptions)
              (handler/site)))
 
 (defn- start-server []

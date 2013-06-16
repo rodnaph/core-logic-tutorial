@@ -55,10 +55,11 @@
   (let [config (clj->js {:mode "clojure"
                          :lineNumbers false
                          :matchBrackets true
-                         :extraKeys {:Ctrl-E run-code}})
-        ed (doto (make-editor config)
-             (.on "change" (debounce save-state)))]
-    (reset! editor ed)))
+                         :extraKeys {:Ctrl-E run-code}})]
+    (reset!
+      editor
+      (doto (make-editor config)
+        (.on "change" (debounce save-state))))))
 
 ;; Timer
 
@@ -81,9 +82,10 @@
   [".result"] (em/do-> (em/remove-class "error")
                        (em/content (pr-str result))))
 
-(em/defaction show-error [{:keys [status-text]}]
+(em/defaction show-error [result]
   [".result"] (em/do-> (em/add-class "error")
-                       (em/content status-text)))
+                       (em/content
+                         (-> result :response :message))))
 
 (em/defaction init-listeners []
   ["input"] (em/listen :click run-code))
