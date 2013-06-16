@@ -14,7 +14,7 @@
             [clojail.testers :refer [secure-tester]]))
 
 (defn index-page [req]
-  (let [title "MAGIC PROGRAMMING"]
+  (let [title "core.logic tool"]
     (html
       [:head
        [:title title]
@@ -24,20 +24,20 @@
       [:body
        [:div.container
         [:div.row
-         [:div.span3.key]
-         [:div.span6
+         [:div.span8
           (f/text-area {} :code)
           (f/submit-button {:class "btn btn-primary"} "Abracadabra")]
-         [:div.span3.result]]]
+         [:div.span4
+          [:div.result]]]]
        (include-js "/assets/codemirror/codemirror.js")
        (include-js "/assets/codemirror/clojure.js")
        (include-js "/assets/js/application.js")])))
 
 (def env '(do (require '[clojure.core.logic :refer
-                         [run run* == fresh conde conso appendo membero]])))
+                         [run run* == fresh conde conso defrel fact appendo membero]])))
 
 (defn run-code [{:keys [params]}]
-  (let [code (read-string (:code params))
+  (let [code (read-string (format "(do %s)" (:code params)))
         sb (sandbox secure-tester)
         result (sb (concat env (vector code)))]
     (-> (res/response (pr-str result))

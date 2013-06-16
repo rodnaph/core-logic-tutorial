@@ -30,10 +30,18 @@ input[type=submit] {
 
 .result {
     text-align: center;
+    font-family: courier;
+    line-height: 1.2em;
 }
 
+.result,
 .CodeMirror {
-    height: 200px;
     border: 2px #666 solid;
+}
+
+.result,
+.CodeMirror,
+.CodeMirror-scroll {
+    height: 200px;
 }
 
