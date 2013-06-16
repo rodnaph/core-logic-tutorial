@@ -8,7 +8,8 @@
                  [ring/ring-devel "1.1.8"]
                  [ring/ring-jetty-adapter "1.1.8"]
                  [cljs-ajax "0.1.3"]
-                 [enfocus "1.0.1"]]
+                 [enfocus "1.0.1"]
+                 [rodnaph/lowline "0.0.2"]]
   :plugins [[lein-cljsbuild "0.3.2"]]
   :cljsbuild {
     :builds [{:source-paths ["src/cljs"]
