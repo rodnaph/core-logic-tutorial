@@ -41,14 +41,21 @@ input[type=submit] {
     font-size: 1.5em;
 }
 
+.CodeMirror {
+    margin-bottom: 10px;
+}
+
 .result,
 .CodeMirror {
     border: 2px #666 solid;
 }
 
-.result,
+.result {
+    height: 200px;
+}
+
 .CodeMirror,
 .CodeMirror-scroll {
-    height: 200px;
+    height: 300px;
 }
 
