@@ -53,7 +53,6 @@
 
 (defn init-editor []
   (let [config (clj->js {:mode "clojure"
-                         :lineNumbers false
                          :matchBrackets true
                          :extraKeys {:Ctrl-E run-code}})]
     (reset!

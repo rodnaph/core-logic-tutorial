@@ -48,8 +48,8 @@ input[type=submit] {
 
 .result,
 .CodeMirror {
-    border: 2px #666 solid;
-    border-radius: 10px;
+    border: 4px #aaa solid;
+    border-radius: 20px;
 }
 
 .result {
