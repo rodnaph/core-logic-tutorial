@@ -24,15 +24,13 @@
       [:body
        [:div.container
         [:div.row
-         [:div.span12
-          [:h1 title]]]
-        [:div.row
          [:div.span3.key]
          [:div.span6
           (f/text-area {} :code)
-          (f/submit-button "Abracadabra")]
+          (f/submit-button {:class "btn btn-primary"} "Abracadabra")]
          [:div.span3.result]]]
        (include-js "/assets/codemirror/codemirror.js")
+       (include-js "/assets/codemirror/clojure.js")
        (include-js "/assets/js/application.js")])))
 
 (def env '(do (require '[clojure.core.logic :refer

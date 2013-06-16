@@ -35823,19 +35823,38 @@ enfocus.core.select["function"] = function(this$, root, id_mask) {
 };
 goog.provide("core_logic_talk.core");
 goog.require("cljs.core");
+goog.require("domina.css");
 goog.require("domina");
 goog.require("ajax.core");
 goog.require("enfocus.core");
 goog.require("domina.css");
 goog.require("domina");
+core_logic_talk.core.editor = cljs.core.atom.call(null, null);
 core_logic_talk.core.show_result = function show_result(result) {
-  return enfocus.core.at.call(null, document, cljs.core.PersistentVector.fromArray([".result"], true), enfocus.core.en_content.call(null, cljs.core.pr_str.call(null, result)))
+  return enfocus.core.at.call(null, document, cljs.core.PersistentVector.fromArray([".result"], true), enfocus.core.en_do__GT_.call(null, enfocus.core.en_remove_class.call(null, "error"), enfocus.core.en_content.call(null, cljs.core.pr_str.call(null, result))))
+};
+core_logic_talk.core.show_error = function show_error(p__22591) {
+  var map__22593 = p__22591;
+  var map__22593__$1 = cljs.core.seq_QMARK_.call(null, map__22593) ? cljs.core.apply.call(null, cljs.core.hash_map, map__22593) : map__22593;
+  var status_text = cljs.core.get.call(null, map__22593__$1, "\ufdd0:status-text");
+  return enfocus.core.at.call(null, document, cljs.core.PersistentVector.fromArray([".result"], true), enfocus.core.en_do__GT_.call(null, enfocus.core.en_add_class.call(null, "error"), enfocus.core.en_content.call(null, status_text)))
 };
 core_logic_talk.core.run_code = function run_code() {
-  var code = domina.value.call(null, domina.css.sel.call(null, "textarea"));
-  return ajax.core.GET.call(null, "/run", cljs.core.PersistentArrayMap.fromArray(["\ufdd0:params", cljs.core.PersistentArrayMap.fromArray(["\ufdd0:code", code], true), "\ufdd0:handler", core_logic_talk.core.show_result], true))
+  var code = cljs.core.deref.call(null, core_logic_talk.core.editor).getValue();
+  return ajax.core.GET.call(null, "/run", cljs.core.PersistentArrayMap.fromArray(["\ufdd0:params", cljs.core.PersistentArrayMap.fromArray(["\ufdd0:code", code], true), "\ufdd0:handler", core_logic_talk.core.show_result, "\ufdd0:error-handler", core_logic_talk.core.show_error], true))
+};
+core_logic_talk.core.init_listeners = function init_listeners() {
+  return enfocus.core.at.call(null, document, cljs.core.PersistentVector.fromArray(["input"], true), enfocus.core.en_listen.call(null, "\ufdd0:click", core_logic_talk.core.run_code))
+};
+core_logic_talk.core.make_editor = function make_editor(config) {
+  return CodeMirror.fromTextArea.call(null, domina.single_node.call(null, domina.css.sel.call(null, "textarea")), config)
+};
+core_logic_talk.core.init_editor = function init_editor() {
+  var config = cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray(["\ufdd0:mode", "clojure", "\ufdd0:lineNumbers", false, "\ufdd0:matchBrackets", true], true));
+  return cljs.core.reset_BANG_.call(null, core_logic_talk.core.editor, core_logic_talk.core.make_editor.call(null, config))
 };
 core_logic_talk.core.init = function init() {
-  return enfocus.core.at.call(null, document, cljs.core.PersistentVector.fromArray(["input"], true), enfocus.core.en_listen.call(null, "\ufdd0:click", core_logic_talk.core.run_code))
+  core_logic_talk.core.init_editor.call(null);
+  return core_logic_talk.core.init_listeners.call(null)
 };
 window.onload = core_logic_talk.core.init;
