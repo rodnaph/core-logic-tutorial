@@ -53,9 +53,9 @@
 
 (defn init-editor []
   (let [config (clj->js {:mode "clojure"
-                         :tabSize 2
                          :lineNumbers false
-                         :matchBrackets true})
+                         :matchBrackets true
+                         :extraKeys {:Ctrl-E run-code}})
         ed (doto (make-editor config)
              (.on "change" (debounce save-state)))]
     (reset! editor ed)))

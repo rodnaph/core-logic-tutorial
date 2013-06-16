@@ -26,7 +26,7 @@
         [:div.row
          [:div.span8
           (f/text-area {} :code)
-          (f/submit-button {:class "btn btn-primary"} "Abracadabra")]
+          (f/submit-button {:class "btn btn-primary"} "Abracadabra (ctrl-e)")]
          [:div.span4
           [:div.result]
           [:div.timer]]]]
