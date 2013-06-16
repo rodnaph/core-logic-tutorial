@@ -88,11 +88,13 @@
 (em/defaction init-listeners []
   ["input"] (em/listen :click run-code))
 
-(defn init []
-  (init-timer)
-  (init-editor)
-  (init-listeners)
-  (init-state) )
+;; Init
 
-(set! (.-onload js/window) init)
+(set!
+  (.-onload js/window)
+  (fn []
+    (init-timer)
+    (init-editor)
+    (init-listeners)
+    (init-state)))
 

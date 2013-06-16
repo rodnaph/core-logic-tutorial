@@ -34,8 +34,7 @@
        (include-js "/assets/codemirror/clojure.js")
        (include-js "/assets/js/application.js")])))
 
-(def env '(do (require '[clojure.core.logic :refer
-                         [run run* == fresh conde conso defrel fact appendo membero]])))
+(def env '(do (require '[clojure.core.logic :refer :all])))
 
 (defn run-code [{:keys [params]}]
   (let [code (read-string (format "(do %s)" (:code params)))
