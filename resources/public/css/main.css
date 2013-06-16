@@ -34,6 +34,12 @@ input[type=submit] {
     line-height: 1.2em;
 }
 
+.timer {
+    margin-top: 15px;
+    text-align: right;
+    font-size: 1.5em;
+}
+
 .result,
 .CodeMirror {
     border: 2px #666 solid;

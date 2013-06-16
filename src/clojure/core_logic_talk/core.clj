@@ -28,7 +28,8 @@
           (f/text-area {} :code)
           (f/submit-button {:class "btn btn-primary"} "Abracadabra")]
          [:div.span4
-          [:div.result]]]]
+          [:div.result]
+          [:div.timer]]]]
        (include-js "/assets/codemirror/codemirror.js")
        (include-js "/assets/codemirror/clojure.js")
        (include-js "/assets/js/application.js")])))

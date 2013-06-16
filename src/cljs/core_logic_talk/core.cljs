@@ -9,6 +9,8 @@
 
 (def editor (atom nil))
 
+(def countdown (atom nil))
+
 ;; Eval
 
 (declare show-result show-error)
@@ -22,19 +24,25 @@
              :handler show-result
              :error-handler show-error}))
 
+;; Local Storage
+
+(defn fetch [k]
+  (aget js/localStorage k))
+
+(defn store [k v]
+  (aset js/localStorage k v))
+
 ;; State
 
-(defn load-state []
-  (str (aget js/localStorage "code")))
-
 (defn save-state []
-  (.log js/console "save state")
-  (aset js/localStorage "code" (get-code)))
+  (store
+    "code"
+    (get-code)))
 
 (defn init-state []
   (.setValue
     (deref editor)
-    (load-state)))
+    (str (fetch "code"))))
 
 ;; Editor
 
@@ -52,7 +60,22 @@
              (.on "change" (debounce save-state)))]
     (reset! editor ed)))
 
+;; Timer
+
+(declare update-timer)
+
+(defn tick-timer []
+  (update-timer)
+  (swap! countdown dec))
+
+(defn init-timer []
+  (reset! countdown 300)
+  (js/setInterval tick-timer 1000))
+
 ;; UI
+
+(em/defaction update-timer []
+  [".timer"] (em/content (str (deref countdown))))
 
 (em/defaction show-result [result]
   [".result"] (em/do-> (em/remove-class "error")
@@ -66,6 +89,7 @@
   ["input"] (em/listen :click run-code))
 
 (defn init []
+  (init-timer)
   (init-editor)
   (init-listeners)
   (init-state) )
