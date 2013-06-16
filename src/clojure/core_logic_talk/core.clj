@@ -1,7 +1,6 @@
 
 (ns core-logic-talk.core
-  (:require clojure.core.logic
-            [hiccup.core :refer [html]]
+  (:require [hiccup.core :refer [html]]
             [hiccup.form :as f]
             [hiccup.page :refer [include-js include-css]]
             [ring.adapter.jetty :refer [run-jetty]]
