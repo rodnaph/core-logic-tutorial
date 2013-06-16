@@ -9,9 +9,7 @@
             [ring.util.response :as res]
             [compojure.core :refer [defroutes GET]]
             [compojure.route :as route]
-            [compojure.handler :as handler]
-            [clojail.core :refer [sandbox]]
-            [clojail.testers :refer [secure-tester]]))
+            [compojure.handler :as handler]))
 
 (defn index-page [req]
   (let [title "core.logic tool"]
@@ -38,8 +36,7 @@
 
 (defn run-code [{:keys [params]}]
   (let [code (read-string (format "(do %s)" (:code params)))
-        sb (sandbox secure-tester)
-        result (sb (concat env (vector code)))]
+        result (eval (concat env (vector code)))]
     (-> (res/response (pr-str result))
         (res/content-type "application/edn"))))
 
