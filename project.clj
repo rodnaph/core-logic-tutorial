@@ -19,5 +19,6 @@
                 :pretty-print true}}]
   }
   :source-paths ["src/clojure"]
-  :main core-logic-talk.core)
+  :main core-logic-talk.core
+  :hooks [leiningen.cljsbuild])
 
