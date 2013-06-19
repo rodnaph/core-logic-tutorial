@@ -8,7 +8,8 @@
             [ring.util.response :as res]
             [compojure.core :refer [defroutes GET]]
             [compojure.route :as route]
-            [compojure.handler :as handler]))
+            [compojure.handler :as handler]
+            [net.cgrand.enlive-html :refer [deftemplate]]))
 
 (defn edn [data status]
   (-> (res/response (pr-str data))
@@ -22,31 +23,12 @@
       (catch Exception e
         (edn {:message (.getMessage e)} 500)))))
 
-(defn index-page [req]
-  (let [title "core.logic tool"]
-    (html
-      [:head
-       [:title title]
-       (include-css "/assets/codemirror/codemirror.css")
-       (include-css "/assets/css/bootstrap.css")
-       (include-css "/assets/css/main.css")]
-      [:body
-       [:div.container
-        [:div.row
-         [:div.span9
-          (f/text-area {} :code)]]
-        [:div.row
-         [:div.span9
-          [:div.result]
-          [:div.timer]]]]
-       (include-js "/assets/codemirror/codemirror.js")
-       (include-js "/assets/codemirror/clojure.js")
-       (include-js "/assets/js/application.js")])))
+(deftemplate index-page "index.html" [req])
 
 (defn run-code [{:keys [params]}]
-  (let [code (list 'do
-                   '(require '[clojure.core.logic :refer :all])
-                   (read-string (:code params)))]
+  (let [code (read-string (format "(do %s)" (:code params)))
+        imp '(require '[clojure.core.logic :refer :all])
+        env (list 'do imp code)]
     (edn (eval code) 200)))
 
 (defroutes all-routes
