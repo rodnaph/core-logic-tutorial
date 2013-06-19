@@ -43,12 +43,11 @@
        (include-js "/assets/codemirror/clojure.js")
        (include-js "/assets/js/application.js")])))
 
-(def env '(do (require '[clojure.core.logic :refer :all])))
-
 (defn run-code [{:keys [params]}]
-  (let [code (read-string (format "(do %s)" (:code params)))
-        result (eval (concat env (vector code)))]
-    (edn result 200)))
+  (let [code (list 'do
+                   '(require '[clojure.core.logic :refer :all])
+                   (read-string (:code params)))]
+    (edn (eval code) 200)))
 
 (defroutes all-routes
   (GET "/" [] index-page)
