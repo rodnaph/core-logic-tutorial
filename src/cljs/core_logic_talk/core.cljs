@@ -7,15 +7,26 @@
             [lowline.functions :refer [debounce]])
   (:require-macros [enfocus.macros :as em]))
 
-(def levels
-  [{:name "Run Logic Run"
-    :description "Here is a description of the first level."
-    :code '(run 1 [q])
-    :goal '(_0)}])
+(def levels [
+
+  {:name "Run Logic Run"
+   :description "The first step in logic programming is knowing
+                how to run a program.  (Hint: Focus the editor
+                and hit CTRL-E)"
+   :code '(run 1 [q])
+   :goal '(_0)}
+
+  {:name "Second level!"
+   :description "THATS ALL THERE IS GO HOME!"
+   :code '(run 1 [q]
+               (== q 1))
+   :goal '(_0)}
+
+ ])
 
 (def editor (atom nil))
 
-(def current-level-index (atom nil))
+(def current-level-index (atom 0))
 
 ;; Eval
 
@@ -75,25 +86,30 @@
 (em/defaction render-level [level]
   [".intro"] (em/add-class "hide")
   [".editor"] (em/add-class "show")
+  [".result"] (em/remove-class "success")
   [".name"] (em/content (:name level))
   [".description"] (em/content (:description level)))
 
-(defn get-level [index]
-  (nth levels index))
-
 (defn current-level []
-  (get-level @current-level-index))
+  (nth levels @current-level-index))
 
-(defn show-level [index]
-  (reset! current-level-index index)
+(defn show-current-level []
   (let [level (current-level)]
     (render-level level)
     (set-state (pr-str (:code level)))))
 
+(em/defaction render-success []
+  [".result"] (em/add-class "success"))
+
+(defn next-level []
+  (swap! current-level-index inc)
+  (show-current-level))
+
 (defn check-result [result]
   (let [goal (:goal (current-level))]
     (if (= result goal)
-      (.log js/console "WIN"))))
+      (do (render-success)
+          (js/setTimeout next-level 2000)))))
 
 ;; UI
 
@@ -121,7 +137,7 @@
 (em/defaction init-intro []
   [".intro a"] (em/listen
                  :click
-                 (partial show-level 0)))
+                 show-current-level))
 
 (set!
   (.-onload js/window)
