@@ -81,6 +81,11 @@
     (show-finish)
     (show-current-level)))
 
+(defn back-level []
+  (if (> @current-level-index 0)
+    (do (swap! current-level-index dec)
+        (show-current-level))))
+
 (defn check-result [result]
   (let [goal (:goal (current-level))]
     (if (= result goal)
@@ -108,6 +113,9 @@
 ;; Init
 
 (em/defaction init-intro []
+  [".back"] (em/listen
+              :click
+              back-level)
   [".intro a"] (em/listen
                  :click
                  show-current-level))

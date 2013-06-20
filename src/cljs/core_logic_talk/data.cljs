@@ -18,17 +18,16 @@
 
   {:description "Ok your turn. Try and unify q with the expected goal.."
    :code '(run* [q]
-            (== :foo q))
+            (== _ q))
    :goal '(:bar)}
 
   {:description "Great!  So now we've got an idea of unification, but what if we
-                want to make some new logic variables to use in addition to q.
-                Meet fresh."
+                try to unify multiple values.  This works like a logical AND, what value
+                is equal to both 1 and 2?"
    :code '(run* [q]
-                (fresh [x]
-                       (== x 1)
-                       (== :foo q)))
-   :goal '(1)}
+                (== q _)
+                (== q _))
+   :goal '()}
 
 ])
 

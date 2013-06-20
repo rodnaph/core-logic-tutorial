@@ -131,3 +131,8 @@ input[type=submit] {
     top: 450px;
 }
 
+.back {
+    margin-top: 20px;
+    display: block;
+}
+
