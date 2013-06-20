@@ -26,9 +26,11 @@
              :error-handler show-error}))
 
 (defn set-state [code]
-  (.setValue
-    (deref editor)
-    code))
+  (.setValue @editor code)
+  (.autoFormatRange
+    @editor
+    (.getCursor @editor true)
+    (.getCursor @editor false)))
 
 ;; Editor
 

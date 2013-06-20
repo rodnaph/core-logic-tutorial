@@ -21,5 +21,14 @@
             (== :foo q))
    :goal '(:bar)}
 
+  {:description "Great!  So now we've got an idea of unification, but what if we
+                want to make some new logic variables to use in addition to q.
+                Meet fresh."
+   :code '(run* [q]
+                (fresh [x]
+                       (== x 1)
+                       (== :foo q)))
+   :goal '(1)}
+
 ])
 
