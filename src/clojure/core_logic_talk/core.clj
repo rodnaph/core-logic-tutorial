@@ -28,7 +28,7 @@
 (defn run-code [{:keys [params]}]
   (let [code (read-string (format "(do %s)" (:code params)))
         imp '(require '[clojure.core.logic :refer :all])
-        env (list 'do imp code)]
+        env (list 'let '[_ (gensym)] imp code)]
     (edn (eval env) 200)))
 
 (defroutes all-routes
