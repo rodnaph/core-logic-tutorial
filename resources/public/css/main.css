@@ -93,7 +93,7 @@ h1 {
     margin-top: 200px;
 }
 
-.editor {
+.controls {
     position: relative;
 }
 
@@ -111,10 +111,10 @@ h1 {
 }
 
 .hint-editor {
-    top: 190px;
+    top: 90px;
 }
 
 .hint-result {
-    top: 490px;
+    top: 330px;
 }
 
