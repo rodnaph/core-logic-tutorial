@@ -15,8 +15,14 @@ body {
     overflow-y: scroll;
 }
 
-h1 {
+h1,
+h2 {
     text-align: center;
+}
+
+h1 {
+    font-size: 2em;
+    line-height: 1.6em;
 }
 
 input[type=submit],
@@ -76,17 +82,13 @@ input[type=submit] {
 }
 
 .hide,
+.finish,
 .editor {
     display: none;
 }
 
 .show {
     display: block;
-}
-
-h1 {
-    font-size: 2em;
-    line-height: 1.6em;
 }
 
 .intro {

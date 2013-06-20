@@ -1,29 +1,12 @@
 
 (ns core-logic-talk.core
-  (:require [domina :refer [value single-node]]
+  (:require [core-logic-talk.data :refer [levels]]
+            [domina :refer [value single-node]]
             [domina.css :refer [sel]]
             [enfocus.core :as ef]
             [ajax.core :as ajax]
             [lowline.functions :refer [debounce]])
   (:require-macros [enfocus.macros :as em]))
-
-(def levels [
-
-  {:name "Run Logic Run"
-   :description "The first step in logic programming is knowing
-                how to run a program.  (Hint: Focus the editor
-                and hit CTRL-E)"
-   :code '(run 1 [q])
-   :goal '(_0)}
-
-  {:name "Second level!"
-   :description "Well done! The next thing to know about run is
-                how to ask for more than one answer..."
-   :code '(run 1 [q]
-               (== q 1))
-   :goal '(_0)}
-
- ])
 
 (def editor (atom nil))
 
@@ -42,29 +25,10 @@
              :handler show-result
              :error-handler show-error}))
 
-;; Local Storage
-
-(defn fetch [k]
-  (aget js/localStorage k))
-
-(defn store [k v]
-  (aset js/localStorage k v))
-
-;; State
-
-(defn save-state []
-  (store
-    "code"
-    (get-code)))
-
 (defn set-state [code]
   (.setValue
     (deref editor)
     code))
-
-(defn init-state []
-  (set-state
-    (str (fetch "code"))))
 
 ;; Editor
 
@@ -77,16 +41,15 @@
   (let [config (clj->js {:mode "clojure"
                          :matchBrackets true
                          :extraKeys {:Ctrl-E run-code}})]
-    (reset!
-      editor
-      (doto (make-editor config)
-        (.on "change" (debounce save-state))))))
+    (reset! editor (make-editor config))))
 
 ;; Tutorial
 
 (em/defaction render-level [level]
   [".intro"] (em/add-class "hide")
-  [".editor"] (em/add-class "show")
+  [".editor"] (em/do->
+                (em/remove-class "hide")
+                (em/add-class "show"))
   [".result"] (em/do->
                 (em/content "")
                 (em/remove-class "success"))
@@ -105,9 +68,17 @@
 (em/defaction render-success []
   [".result"] (em/add-class "success"))
 
+(em/defaction show-finish []
+  [".editor"] (em/do->
+                (em/remove-class "show")
+                (em/add-class "hide"))
+  [".finish"] (em/add-class "show"))
+
 (defn next-level []
   (swap! current-level-index inc)
-  (show-current-level))
+  (if (= (count levels) @current-level-index)
+    (show-finish)
+    (show-current-level)))
 
 (defn check-result [result]
   (let [goal (:goal (current-level))]
@@ -135,9 +106,6 @@
 
 ;; Init
 
-(em/defaction init-listeners []
-  ["input"] (em/listen :click run-code))
-
 (em/defaction init-intro []
   [".intro a"] (em/listen
                  :click
@@ -147,6 +115,5 @@
   (.-onload js/window)
   (fn []
     (init-editor)
-    (init-listeners)
     (init-intro)))
 
