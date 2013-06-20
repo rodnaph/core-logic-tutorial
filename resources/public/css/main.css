@@ -30,6 +30,7 @@ input[type=submit] {
     font-size: 1.1em;
 }
 
+.answer,
 .result {
     text-align: center;
     font-family: courier;
@@ -47,15 +48,21 @@ input[type=submit] {
 }
 
 .result,
+.answer,
 .CodeMirror {
     border: 4px #aaa solid;
     border-radius: 20px;
 }
 
+.answer,
 .result {
     height: 100px;
+}
+
+.result {
     border-color: #c66;
     background-color: #faa;
+    margin-bottom: 10px;
 }
 
 .success {
@@ -116,5 +123,9 @@ h1 {
 
 .hint-result {
     top: 330px;
+}
+
+.hint-answer {
+    top: 450px;
 }
 

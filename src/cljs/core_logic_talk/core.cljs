@@ -17,7 +17,8 @@
    :goal '(_0)}
 
   {:name "Second level!"
-   :description "THATS ALL THERE IS GO HOME!"
+   :description "Well done! The next thing to know about run is
+                how to ask for more than one answer..."
    :code '(run 1 [q]
                (== q 1))
    :goal '(_0)}
@@ -86,7 +87,10 @@
 (em/defaction render-level [level]
   [".intro"] (em/add-class "hide")
   [".editor"] (em/add-class "show")
-  [".result"] (em/remove-class "success")
+  [".result"] (em/do->
+                (em/content "")
+                (em/remove-class "success"))
+  [".answer"] (em/content (pr-str (:goal level)))
   [".name"] (em/content (:name level))
   [".description"] (em/content (:description level)))
 
