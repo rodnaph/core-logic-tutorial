@@ -29,7 +29,7 @@
   (let [code (read-string (format "(do %s)" (:code params)))
         imp '(require '[clojure.core.logic :refer :all])
         env (list 'do imp code)]
-    (edn (eval code) 200)))
+    (edn (eval env) 200)))
 
 (defroutes all-routes
   (GET "/" [] index-page)

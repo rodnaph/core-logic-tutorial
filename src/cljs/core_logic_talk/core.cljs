@@ -7,9 +7,15 @@
             [lowline.functions :refer [debounce]])
   (:require-macros [enfocus.macros :as em]))
 
+(def levels
+  [{:name "Run Logic Run"
+    :description "Here is a description of the first level."
+    :code '(run 1 [q])
+    :goal '(_0)}])
+
 (def editor (atom nil))
 
-(def countdown (atom nil))
+(def current-level-index (atom nil))
 
 ;; Eval
 
@@ -39,9 +45,13 @@
     "code"
     (get-code)))
 
-(defn init-state []
+(defn set-state [code]
   (.setValue
     (deref editor)
+    code))
+
+(defn init-state []
+  (set-state
     (str (fetch "code"))))
 
 ;; Editor
@@ -60,42 +70,63 @@
       (doto (make-editor config)
         (.on "change" (debounce save-state))))))
 
-;; Timer
+;; Tutorial
 
-(declare update-timer)
+(em/defaction render-level [level]
+  [".intro"] (em/add-class "hide")
+  [".editor"] (em/add-class "show")
+  [".name"] (em/content (:name level))
+  [".description"] (em/content (:description level)))
 
-(defn tick-timer []
-  (update-timer)
-  (swap! countdown dec))
+(defn get-level [index]
+  (nth levels index))
 
-(defn init-timer []
-  (reset! countdown 300)
-  (js/setInterval tick-timer 1000))
+(defn current-level []
+  (get-level @current-level-index))
+
+(defn show-level [index]
+  (reset! current-level-index index)
+  (let [level (current-level)]
+    (render-level level)
+    (set-state (pr-str (:code level)))))
+
+(defn check-result [result]
+  (let [goal (:goal (current-level))]
+    (if (= result goal)
+      (.log js/console "WIN"))))
 
 ;; UI
 
-(em/defaction update-timer []
-  [".timer"] (em/content (str (deref countdown))))
-
-(em/defaction show-result [result]
+(em/defaction render-result [result]
   [".result"] (em/do-> (em/remove-class "error")
                        (em/content (pr-str result))))
 
-(em/defaction show-error [result]
+(em/defaction render-error [result]
   [".result"] (em/do-> (em/add-class "error")
                        (em/content
                          (-> result :response :message))))
 
+(defn show-result [result]
+  (render-result result)
+  (check-result result))
+
+(defn show-error [result]
+  (render-error result))
+
+;; Init
+
 (em/defaction init-listeners []
   ["input"] (em/listen :click run-code))
 
-;; Init
+(em/defaction init-intro []
+  [".intro a"] (em/listen
+                 :click
+                 (partial show-level 0)))
 
 (set!
   (.-onload js/window)
   (fn []
-    (init-timer)
     (init-editor)
     (init-listeners)
-    (init-state)))
+    (init-intro)))
 
