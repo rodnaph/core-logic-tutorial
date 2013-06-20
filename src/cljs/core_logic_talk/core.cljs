@@ -54,7 +54,6 @@
                 (em/content "")
                 (em/remove-class "success"))
   [".answer"] (em/content (pr-str (:goal level)))
-  [".name"] (em/content (:name level))
   [".description"] (em/content (:description level)))
 
 (defn current-level []
