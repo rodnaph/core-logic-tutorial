@@ -21,13 +21,5 @@
             (== _ q))
    :goal '(:bar)}
 
-  {:description "Great!  So now we've got an idea of unification, but what if we
-                try to unify multiple values.  This works like a logical AND, what value
-                is equal to both 1 and 2?"
-   :code '(run* [q]
-                (== q _)
-                (== q _))
-   :goal '()}
-
 ])
 
