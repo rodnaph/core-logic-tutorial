@@ -1,7 +1,7 @@
 
-# Core Dot Logic Tool
+# Core.Logic Tutorial
 
-Web tool for evaluating core.logic code.
+Web application to teach the basics of using core.logic.
 
 ![Image of web interface](screenshot.png "Web interface")
 
