@@ -1,5 +1,5 @@
 
-(ns core-logic-talk.core
+(ns core-logic-tutorial.core
   (:require [hiccup.core :refer [html]]
             [hiccup.form :as f]
             [hiccup.page :refer [include-js include-css]]

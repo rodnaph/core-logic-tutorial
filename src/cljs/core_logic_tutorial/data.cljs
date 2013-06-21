@@ -1,5 +1,5 @@
 
-(ns core-logic-talk.data)
+(ns core-logic-tutorial.data)
 
 (def levels [
 

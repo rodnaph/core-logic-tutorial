@@ -1,6 +1,6 @@
 
-(defproject core-logic-talk "0.1.0-SNAPSHOT"
-  :description "Magic Programming Talk Tool"
+(defproject core-logic-tutorial "0.1.0-SNAPSHOT"
+  :description "Core.Logic Tutorial"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/core.logic "0.8.3"]
                  [compojure "1.1.5"]
@@ -20,6 +20,7 @@
                 :pretty-print true}}]
   }
   :source-paths ["src/clojure" "src/html"]
-  :main core-logic-talk.core
+  :main core-logic-tutorial.core
+  :min-lein-version "2.0.0"
   :hooks [leiningen.cljsbuild])
 

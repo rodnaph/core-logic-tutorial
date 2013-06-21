@@ -1,6 +1,6 @@
 
-(ns core-logic-talk.core
-  (:require [core-logic-talk.data :refer [levels]]
+(ns core-logic-tutorial.core
+  (:require [core-logic-tutorial.data :refer [levels]]
             [domina :refer [value single-node]]
             [domina.css :refer [sel]]
             [enfocus.core :as ef]
