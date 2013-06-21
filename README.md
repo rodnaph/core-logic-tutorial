@@ -8,7 +8,7 @@ Web application to teach the basics of using core.logic.
 ## Usage
 
 ```
-lein run
+lein run 1234
 ```
 
 Then open your browser to http://localhost:1234/

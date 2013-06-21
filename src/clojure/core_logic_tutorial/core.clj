@@ -40,10 +40,13 @@
              (wrap-exceptions)
              (handler/site)))
 
-(defn- start-server []
-  (run-jetty app {:port 1234
-                  :join? false}))
+(defn- start-server
+  ([] (start-server
+        {:port 1234
+         :join? false}))
+  ([options]
+   (run-jetty app options)))
 
-(defn -main []
-  (start-server))
+(defn -main [& [port]]
+  (start-server {:port (Integer/parseInt port)}))
 
