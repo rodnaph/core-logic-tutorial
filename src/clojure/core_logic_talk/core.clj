@@ -26,10 +26,10 @@
 (deftemplate index-page "index.html" [req])
 
 (defn run-code [{:keys [params]}]
-  (let [code (read-string (format "(do %s)" (:code params)))
+  (let [code (read-string (format "(let [_ (gensym)] %s)" (:code params)))
         imp '(require '[clojure.core.logic :refer :all])
         env (list 'do imp code)]
-    (edn (eval code) 200)))
+    (edn (eval env) 200)))
 
 (defroutes all-routes
   (GET "/" [] index-page)
