@@ -1,9 +1,8 @@
-
 # Core.Logic Tutorial
 
-Web application to teach the basics of using core.logic.
+Web application to teach the basics of using core.logic. You can play with an online version here:
 
-![Image of web interface](screenshot.png "Web interface")
+http://core-logic-tutorial.herokuapp.com/
 
 ## Usage
 
